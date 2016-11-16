@@ -1,0 +1,15 @@
+Step 2:
+	Reflect on the code that you just added. 
+		I added code that allows ADMIN to edit users, but does not allow the same function for regular USERS.
+	
+	What do you understand? What parts do you still not understand? 
+		I don't 100% understand what @service does.
+
+	What questions do you have? 
+		What is the exact function of @service?
+
+	How has the app changed?
+	ADMIN can edit users, regular users can not, they can only view profiles.
+	Contact GitHub API Training Shop Blog About
+
+
