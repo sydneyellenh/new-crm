@@ -38,6 +38,9 @@ dependencies {
     compile("org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE")
     compile("com.h2database:h2")
     testCompile("junit:junit")
+    compile("javax.mail:javax.mail-api:1.5.1")
+    compile("javax.mail:mail:1.4.7")
+    
 }
 
 task wrapper(type: Wrapper) {

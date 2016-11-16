@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.users.beans.Email;
 import com.users.beans.User;
 import com.users.beans.UserImage;
 import com.users.beans.UserRole;
@@ -25,6 +26,7 @@ import com.users.repositories.UserImageRepository;
 import com.users.repositories.UserRepository;
 import com.users.repositories.UserRoleRepository;
 import com.users.security.PermissionService;
+import com.users.service.EmailService;
 import com.users.service.ImageService;
 
 import static com.users.security.Role.ROLE_ADMIN;
@@ -48,6 +50,9 @@ public class IndexController {
 	
 	@Autowired
 	private UserRoleRepository userRoleRepo;
+	
+	@Autowired
+	private EmailService emailService;
 
 	
 	@RequestMapping("/")
@@ -57,11 +62,33 @@ public class IndexController {
 
 
 	@RequestMapping("/greeting")
-	public String greeting(@RequestParam(value = "name", required = false, defaultValue = "World") String name, Model model) {
-		model.addAttribute("name", name);
-		model.addAttribute("repoCount", userRepo.count());
-		return "greeting";
+	public String greeting(
+		@RequestParam(value = "name", required = false, defaultValue = "World") String name,
+		Model model) {
+	model.addAttribute("name", name);
+	model.addAttribute("repoCount", userRepo.count());
+	return "greeting";
+}
+
+	@RequestMapping(value = "/email/send", method = RequestMethod.POST)
+	public String sendEmail(Email email, Model model) {
+		emailService.sendMessage(email);
+		
+		return "redirect:/";
 	}
+
+	@RequestMapping(value = "/email/user", method = RequestMethod.GET)
+	public String prepEmailUser(Model model) {
+		String url = "http://localhost:8080/register/";
+
+		model.addAttribute("message", "To join SRM just follow this link: " + url);
+		model.addAttribute("pageTitle", "Invite User");
+		model.addAttribute("subject", "Join me on SRM");
+
+		return "sendMail";
+	}
+
+
 
 //	@RequestMapping("/")
 //	public String listing(Model model) {
