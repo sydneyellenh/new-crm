@@ -20,10 +20,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.users.beans.User;
 import com.users.beans.UserImage;
+import com.users.beans.UserRole;
 import com.users.repositories.UserImageRepository;
 import com.users.repositories.UserRepository;
+import com.users.repositories.UserRoleRepository;
 import com.users.security.PermissionService;
+import com.users.service.ImageService;
+
 import static com.users.security.Role.ROLE_ADMIN;
+import static com.users.security.Role.ROLE_USER;
 
 @Controller
 public class IndexController {
@@ -37,6 +42,13 @@ public class IndexController {
 	
 	@Autowired
 	private PermissionService permissionService;
+	
+	@Autowired
+	private ImageService imageService;
+	
+	@Autowired
+	private UserRoleRepository userRoleRepo;
+
 	
 	@RequestMapping("/")
 	public String home(Model model) {
@@ -75,6 +87,11 @@ public class IndexController {
 		
 		return profile(permissionService.findCurrentUserId(), model);
 	}
+
+	@RequestMapping("/register")
+		public String register(Model model) {
+			return createUser(model);
+}
 
 
 	@RequestMapping("/user/{userId}")
@@ -130,48 +147,40 @@ public class IndexController {
 		userRepo.save(user);
 		model.addAttribute("message", "User " + user.getEmail() + " saved.");
 
-		if (!file.isEmpty()) {
-			try {
-				List<UserImage> images = userImageRepo.findByUserId(user.getId());
-				UserImage img = (images.size() > 0) ? images.get(0) : new UserImage(userId);
-				img.setContentType(file.getContentType());
-				img.setImage(file.getBytes());
-				userImageRepo.save(img);
-
-				log.debug("Saved Image");
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-
-		} else if (removeImage) {
-			log.debug("Removing Image");
-			// user.setImage(null);
-			List<UserImage> images = userImageRepo.findByUserId(user.getId());
-
-			for (UserImage img : images) {
-				userImageRepo.delete(img);
-			}
+		if(removeImage) {
+			imageService.deleteImage(user);
+		} else {
+			imageService.saveImage(file, user);
 		}
+	
+	return profile(userId, model);
 
-		return profile(userId, model);
 	}
 	
-	@Secured("ROLE_ADMIN")
+
 	@RequestMapping(value = "/user/create", method = RequestMethod.GET)
-	public String createContact(Model model) {
+	public String createUser(Model model) {
 		model.addAttribute("user", new User());
 		
 		return "userCreate";
 	}
 
-	@Secured("ROLE_ADMIN")
+
 	@RequestMapping(value = "/user/create", method = RequestMethod.POST)
-	public String createContact(@ModelAttribute User user,
+	public String createUser(@ModelAttribute User user,
 			@RequestParam("file") MultipartFile file, Model model) {
-
-		User savedUser = userRepo.save(user);
 		
-	return profileSave(savedUser, savedUser.getId(), false, file, model);
-	}
+		log.info(user.toString());
+		
+		User savedUser = userRepo.save(user);
+		UserRole role = new UserRole(savedUser, ROLE_USER);		
+		userRoleRepo.save(role);
+		imageService.saveImage(file, savedUser);
 
+		
+		return profile(savedUser.getId(), model);
+}
+
+	
+	
 }

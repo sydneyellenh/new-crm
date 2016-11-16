@@ -137,46 +137,5 @@ public class ContactController {
 		return profileSave(savedContact, savedContact.getId(), false, file, model);
 	}
 
-	// I think that this is displaying ways to get in contact with people, and
-	// also a method to send mail.
-//	@Secured("ROLE_USER")
-//	@RequestMapping(value = "/email/contact/{contactId}", method = RequestMethod.GET)
-//	public String prepEmailContact(@PathVariable long contactId, Model model) {
-//		User user = permissionService.findCurrentUser();
-//		Contact contact = contactRepo.findByUserIdAndId(user.getId(), contactId);
-//
-//		StringBuilder message = new StringBuilder().append("Your friend ").append(user.getFirstName()).append(" ")
-//				.append(user.getLastName()).append(" has forwarded you the following contact:\n\n")
-//				.append(contact.getFirstName()).append(" ").append(contact.getLastName()).append("\n");
-//		if (!isNullOrEmpty(contact.getEmail())) {
-//			message.append("Email: ").append(contact.getEmail()).append("\n");
-//		}
-//		if (!isNullOrEmpty(contact.getPhoneNumber())) {
-//			message.append("Phone: ").append(contact.getPhoneNumber()).append("\n");
-//		}
-//		if (!isNullOrEmpty(contact.getTwitterHandle())) {
-//			message.append("Twitter: ").append(contact.getTwitterHandle()).append("\n");
-//		}
-//		if (!isNullOrEmpty(contact.getFacebookUrl())) {
-//			message.append("Facebook: ").append(contact.getFacebookUrl()).append("\n");
-//		}
-//
-//		model.addAttribute("message", message.toString());
-//		model.addAttribute("pageTitle", "Forward Contact");
-//		model.addAttribute("subject", "Introducing " + contact.getFirstName() + " " + contact.getLastName());
-//
-//		return "sendMail";
-//	}
-
-//	@Secured("ROLE_USER")
-//	@RequestMapping(value = "/contact/search", method = RequestMethod.POST)
-//	public String searchUsers(@RequestParam("search") String search, Model model) {
-//		log.debug("Searching by " + search);
-//		model.addAttribute("contacts",
-//				contactRepo.findByLastNameOrFirstNameOrEmailOrTwitterHandleOrFacebookUrlIgnoreCase(search, search,
-//						search, search, search));
-//		model.addAttribute("search", search);
-//		return "listContacts";
-//	}
 
 }
