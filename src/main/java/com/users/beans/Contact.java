@@ -25,6 +25,9 @@ package com.users.beans;
 		
 		private String phoneNumber;
 		private boolean active;
+		
+		private String twitterHandle;
+		private String facebookUrl;
 
 		
 		protected Contact() {
@@ -37,18 +40,23 @@ package com.users.beans;
 
 
 		public Contact(String firstName, String lastName, String email, String phoneNumber,
-				boolean active, long userId) {
+				boolean active, long userId, String twitterHandle, String facebookUrl) {
 			this.firstName = firstName;
 			this.lastName = lastName;
 			this.email = email;
 			this.phoneNumber = phoneNumber;
 			this.active = active;
 			this.userId = userId;
+			this.twitterHandle = twitterHandle;
+			this.facebookUrl = facebookUrl;
 		}
 
 		@Override
 		public String toString() {
-				return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", phoneNumber=" + phoneNumber + ", active=" + active + "]";
+				return "User [id=" + id + ", firstName=" + firstName + 
+						", lastName=" + lastName + ", email=" + email + 
+						", phoneNumber=" + phoneNumber + ", active=" + active + 
+						", twitterHandle" + twitterHandle + ", facebookUrl" + facebookUrl + "]";
 		}
 
 
@@ -107,5 +115,23 @@ package com.users.beans;
 		public void setUserId(long userId) {
 			this.userId = userId;
 		}
+
+		public String getTwitterHandle() {
+			return twitterHandle;
+		}
+
+		public String getFacebookUrl() {
+			return facebookUrl;
+		}
+
+		public void setTwitterHandle(String twitterHandle) {
+			this.twitterHandle = twitterHandle;
+		}
+
+		public void setFacebookUrl(String facebookUrl) {
+			this.facebookUrl = facebookUrl;
+		}
+		
+		
 
 }

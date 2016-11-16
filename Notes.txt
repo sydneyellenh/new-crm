@@ -11,5 +11,3 @@ Step 2:
 	How has the app changed?
 	ADMIN can edit users, regular users can not, they can only view profiles.
 	Contact GitHub API Training Shop Blog About
-
-

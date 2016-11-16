@@ -12,6 +12,14 @@
 		<li th:text="*{lastName}"></li>
 		<li th:text="*{email}"></li>
 		<li th:text="*{phoneNumber}"></li>
+		
+		<li th:if="*{! #strings.isEmpty(twitterHandle)}"><a
+			target="_blank" th:href="@{|https://twitter.com/*{twitterHandle}|}"
+			th:text="*{twitterHandle}"></a></li>
+		
+		<li th:if="*{! #strings.isEmpty(facebookUrl)}"><a target="_blank"
+			th:href="@{|*{facebookUrl}|}" th:text="*{facebookUrl}"></a></li>
+		
 		<!-- Step1 - Step 20  -->
 		<li sec:authorize="hasRole('ROLE_ADMIN')" th:class=
 		"${#httpServletRequest.requestURI.contains('user')?'active':null}">
